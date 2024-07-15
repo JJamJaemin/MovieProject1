@@ -176,7 +176,7 @@ fun DetailScreen(
                     )
                 }
 
-                //TODO: 좋아요 만들기
+                //TODO: 좋아요 만들기.
 
                 Text(
                     modifier = Modifier
