@@ -20,9 +20,9 @@ fun BottomNavigationBar(
     navController: NavHostController
 ) {
     val items = listOf(
+        BottomNavItem.ArticleScreen,
         BottomNavItem.MainScreen,
-        BottomNavItem.Screen2,
-        BottomNavItem.Screen3
+        BottomNavItem.ChatScreen
     )
 
     var isSelectedTab by remember { mutableStateOf("main") }
