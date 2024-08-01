@@ -13,8 +13,17 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -36,6 +45,7 @@ import com.example.movie.common.CarouseSlider
 import com.example.movie.common.Chip
 import com.example.movie.common.CircleGraph
 import com.example.movie.viewmodel.TestViewModel
+import kotlinx.coroutines.launch
 
 //TODO: Screen으로 빼기, 디테일 스크린
 @SuppressLint("StateFlowValueCalledInComposition")
@@ -52,6 +62,12 @@ fun DetailScreen(
     val selectedMovie = movieData.value.results[selectedIndex.value]
 
     Log.d("DetailScreen", "영화 리스트 갯수: ${movieData.value.results.size}")
+
+    //좋아요 버튼
+    val snackbarHostState = remember {
+        SnackbarHostState()
+    }
+    val corutineScope = rememberCoroutineScope()
 
     Box(
         modifier = Modifier
@@ -164,7 +180,11 @@ fun DetailScreen(
                                 fontWeight = FontWeight.Bold
                             )
                         )
+
+
                     }
+
+
 
                     Text(
                         text = "투표 인원 : ${selectedMovie.vote_count}",
@@ -175,8 +195,6 @@ fun DetailScreen(
                         )
                     )
                 }
-
-                //TODO: 좋아요 만들기.
 
                 Text(
                     modifier = Modifier
