@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.SnackbarDuration
@@ -22,6 +23,7 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -45,7 +47,12 @@ import com.example.movie.common.CarouseSlider
 import com.example.movie.common.Chip
 import com.example.movie.common.CircleGraph
 import com.example.movie.viewmodel.TestViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+
+
+//스낵바 시간
+private const val mySnackbar = "1000L"
 
 //TODO: Screen으로 빼기, 디테일 스크린
 @SuppressLint("StateFlowValueCalledInComposition")
@@ -63,11 +70,15 @@ fun DetailScreen(
 
     Log.d("DetailScreen", "영화 리스트 갯수: ${movieData.value.results.size}")
 
-    //좋아요 버튼
+    //좋아요 버튼 관련
     val snackbarHostState = remember {
         SnackbarHostState()
     }
     val corutineScope = rememberCoroutineScope()
+
+    var isFavorite = remember {
+        mutableStateOf(false)
+    }
 
     Box(
         modifier = Modifier
@@ -181,7 +192,28 @@ fun DetailScreen(
                             )
                         )
 
-
+                        //TODO: 좋아요 만들기.
+                        Box(modifier = Modifier){
+                            IconButton(onClick = {
+                                corutineScope.launch {
+                                    val job = corutineScope.launch {
+                                        snackbarHostState.showSnackbar(
+                                            message = if (isFavorite.value) "좋아하는 영화에 추가" else "좋아하는 영화에서 삭제",
+                                            duration = SnackbarDuration.Indefinite
+                                        )
+                                    }
+                                    delay(1500)
+                                    job.cancel()
+                                }
+                                isFavorite.value = !isFavorite.value
+                            }) {
+                                Icon(
+                                    imageVector = if (isFavorite.value) Icons.Filled.Favorite else Icons.Filled.FavoriteBorder,
+                                    contentDescription = "like",
+                                    tint = Color.White
+                                )
+                            }
+                        }
                     }
 
 
@@ -218,7 +250,12 @@ fun DetailScreen(
                 )
             }
         }
+
+        SnackbarHost(hostState = snackbarHostState,
+            modifier = Modifier.align(Alignment.BottomCenter))
     }
+
+
 }
 
 @Preview

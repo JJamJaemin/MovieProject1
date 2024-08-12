@@ -33,5 +33,8 @@ fun NavigationGraph(navController: NavHostController) {
         composable(WRITESCREEN_ROUTE){
             WriteScreen(viewModel = PostViewModel())
         }
+//        composable(SETTING_ROUTE){
+//            SettingScreen() todo 세팅화면
+//        }
     }
 }
