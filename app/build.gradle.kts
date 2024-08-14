@@ -98,6 +98,4 @@ dependencies {
     // Icon
     implementation("androidx.compose.material:material-icons-extended:1.6.8")
 
-    // Supabase with Ktor client
-    implementation("io.github.jan-tennert.supabase:[module]:VERSION")
 }
