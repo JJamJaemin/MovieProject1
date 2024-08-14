@@ -48,6 +48,7 @@ import androidx.compose.ui.unit.dp
 import com.example.movie.MainActivity
 import com.example.movie.ui.theme.MovieTheme
 
+// screen 패키지에 loginscreen 이랑 똑같습니다.
 @Composable
 fun LoginForm(){
     Surface {
