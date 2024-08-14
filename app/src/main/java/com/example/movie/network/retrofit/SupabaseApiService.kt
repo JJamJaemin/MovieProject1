@@ -2,6 +2,7 @@ package com.example.movie.network.retrofit
 
 import com.example.movie.network.model.post.PostDataItem
 import com.example.movie.network.model.post.SendPostData
+import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -28,4 +29,15 @@ interface SupabaseApiService {
         @Query("apikey") apikey: String = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpkcG9hZHFuYm56bW15Z25zYWR4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTgzNDYzOTgsImV4cCI6MjAzMzkyMjM5OH0.slFtE--CP7YabhnPxsFhIhCnKdeB8aZZdgjMKJOzEEQ",
         @Body sendPostData: SendPostData
     ) : Response<List<SendPostData>>
+
+    @GET("your_table")
+    fun getUser(
+        @Query("id") id: String,
+        @Query("password") password: String
+    ): Call<UserResponse>
+
 }
+data class UserResponse(
+    val userid: String,
+    val password: String
+)

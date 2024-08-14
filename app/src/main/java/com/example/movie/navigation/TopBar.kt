@@ -52,7 +52,7 @@ fun TopAppBar () {
                     imageVector = Icons.Filled.Search,
                     contentDescription = "search")
             }
-            IconButton(onClick = { /*TODO*/ }) {
+            IconButton(onClick = {  }) {
                 Icon(
                     imageVector = Icons.Filled.AccountCircle,
                     contentDescription = "me")

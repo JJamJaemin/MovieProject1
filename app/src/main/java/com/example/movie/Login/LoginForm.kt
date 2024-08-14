@@ -46,52 +46,53 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.movie.MainActivity
+import com.example.movie.network.LoginRepository
 import com.example.movie.ui.theme.MovieTheme
 
 // screen 패키지에 loginscreen 이랑 똑같습니다.
 @Composable
-fun LoginForm(){
-    Surface {
+fun LoginForm() {
+    val context = LocalContext.current
+    val loginRepository = remember { LoginRepository() }
 
-        var credentials by remember {
-            mutableStateOf(Credentials())
-        }
-        var context = LocalContext.current
+    var credentials by remember {
+        mutableStateOf(Credentials())
+    }
 
-        Column (
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.fillMaxSize().padding(horizontal = 30.dp)
-        ){
-            LoginField(
-                value = credentials.login,
-                onChange = {data -> credentials = credentials.copy(login = data)},
-                modifier = Modifier.fillMaxWidth()
-            )
-            PasswordField(
-                value = credentials.pwd,
-                onChange = {data -> credentials = credentials.copy(pwd = data)},
-                submit = { checkCredentials(credentials, context) },
-                modifier = Modifier.fillMaxWidth()
-            )
-            Spacer(modifier = Modifier.height(10.dp))
-            LabledCheckbox(
-                label = "Remember Me",
-                onCheckChanged = {credentials = credentials.copy(remember = !credentials.remember)},
-                isChecked =  credentials.remember
-            )
-            Spacer(modifier = Modifier.height(20.dp))
-            Button(
-                onClick = { checkCredentials(credentials, context) },
-                enabled = credentials.isNotEmpty(),
-                shape = RoundedCornerShape(5.dp),
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text(text = "Login")
-            }
+    Column(
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.fillMaxSize().padding(horizontal = 30.dp)
+    ) {
+        LoginField(
+            value = credentials.login,
+            onChange = { data -> credentials = credentials.copy(login = data) },
+            modifier = Modifier.fillMaxWidth()
+        )
+        PasswordField(
+            value = credentials.pwd,
+            onChange = { data -> credentials = credentials.copy(pwd = data) },
+            submit = { loginRepository.checkCredentials(credentials, context) },
+            modifier = Modifier.fillMaxWidth()
+        )
+        Spacer(modifier = Modifier.height(10.dp))
+        LabledCheckbox(
+            label = "Remember Me",
+            onCheckChanged = { credentials = credentials.copy(remember = !credentials.remember) },
+            isChecked = credentials.remember
+        )
+        Spacer(modifier = Modifier.height(20.dp))
+        Button(
+            onClick = { loginRepository.checkCredentials(credentials, context) },
+            enabled = credentials.isNotEmpty(),
+            shape = RoundedCornerShape(5.dp),
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(text = "Login")
         }
     }
 }
+
 
 fun checkCredentials(creds: Credentials, context: Context){
     if(creds.isNotEmpty() && creds.login == "admin"){
